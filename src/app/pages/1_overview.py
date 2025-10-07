@@ -1,7 +1,6 @@
 import streamlit as st
 from src.ingestion.price_fetcher import PriceFetcher
 from src.app.visualizations import trend_lines
-from src.utils.helpers import calculate_date_ranges
 
 st.set_page_config(page_title="Overview", layout="wide")
 st.title("Company Overview")

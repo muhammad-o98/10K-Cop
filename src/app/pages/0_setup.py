@@ -2,14 +2,13 @@ import streamlit as st
 from src.pipeline.orchestrator import build_index_for_ticker_years
 from src.storage.vector_store import VectorStore
 from src.utils.helpers import load_yaml
-from src.utils.logger import get_logger
-
-logger = get_logger("setup_page")
 
 st.set_page_config(page_title="Setup", layout="wide")
 st.title("Setup and Ingestion")
 
 cfg = load_yaml("config/config.yaml")
+storage_dir = cfg.get("storage", {}).get("chroma_dir", "data/analytics/chroma")
+embedding_model = cfg.get("rag", {}).get("embedding_model", "BAAI/bge-small-en-v1.5")
 
 colA, colB = st.columns([2,1])
 with colA:
@@ -26,8 +25,8 @@ with colA:
                 st.exception(e)
 with colB:
     st.subheader("Vector Store")
-    vs = VectorStore(persist_dir=cfg["storage"]["chroma_dir"], embedding_model=cfg["rag"]["embedding_model"])
     try:
+        vs = VectorStore(persist_dir=storage_dir, embedding_model=embedding_model)
         count = vs.col.count()
         st.metric("Indexed chunks", count)
         peek = vs.col.peek()

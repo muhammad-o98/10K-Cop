@@ -9,9 +9,6 @@ if ROOT_DIR not in sys.path:
 import streamlit as st
 import datetime as dt
 from src.utils.helpers import load_yaml
-from src.utils.logger import get_logger
-
-logger = get_logger("app")
 
 @st.cache_data
 def load_config(path: str = "config/config.yaml"):
@@ -35,7 +32,8 @@ def render_sidebar(cfg):
     st.session_state["start_date"] = start_date
     st.session_state["end_date"] = end_date
     st.sidebar.divider()
-    st.sidebar.caption(f"Model: {cfg['rag']['llm_model']} | Emb: {cfg['rag']['embedding_model']}")
+    rag_cfg = cfg.get("rag", {})
+    st.sidebar.caption(f"Model: {rag_cfg.get('llm_model','N/A')} | Emb: {rag_cfg.get('embedding_model','N/A')}")
     st.sidebar.page_link("src/app/pages/0_setup.py", label="Setup", icon="🧩")
     st.sidebar.page_link("src/app/pages/1_overview.py", label="Overview", icon="📊")
     st.sidebar.page_link("src/app/pages/2_ratios.py", label="Ratios", icon="🧮")
