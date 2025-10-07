@@ -1,0 +1,27 @@
+.PHONY: setup run ingest index seed compose-up compose-down clean
+
+setup:
+	python -m venv .venv && . .venv/bin/activate && pip install -r requirements.txt
+	cp -n config/.env.example .env || true
+	python -c "from src.storage.duckdb_manager import DuckDBManager as D; D().create_tables()"
+
+run:
+	streamlit run src/app/streamlit_app.py --server.address=0.0.0.0 --server.port=8501
+
+ingest:
+	python scripts/cli.py ingest-10k --ticker AAPL --years 2022 2023
+
+index:
+	python scripts/cli.py build-index --ticker AAPL --years 2022 2023
+
+seed:
+	python scripts/cli.py seed-demo --ticker AAPL --years 2022 2023
+
+compose-up:
+	docker compose up --build
+
+compose-down:
+	docker compose down
+
+clean:
+	rm -rf .cache logs data/analytics/chroma data/analytics/warehouse.duckdb

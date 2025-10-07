@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  app:
+    build: .
+    container_name: 10k-cop-app
+    ports:
+      - "8501:8501"
+    env_file:
+      - ./config/.env
+    environment:
+      - PYTHONPATH=/app
+    volumes:
+      - ./:/app
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./config:/app/config
+    depends_on:
+      - ollama
+  ollama:
+    image: ollama/ollama:latest
+    container_name: 10k-cop-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    healthcheck:
+      test: ["CMD", "ollama", "list"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+volumes:
+  ollama:
