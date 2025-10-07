@@ -1,0 +1,33 @@
+# SEC EDGAR Settings
+edgar:
+  user_agent: "FinDataResearchBot abdulsalam.m@northeastern.edu"
+  rate_limit_delay: 0.1
+  max_retries: 3
+
+# FRED API Settings
+fred:
+  api_key: "70faa06e4f6a64bad46e4c14acbb3c01"
+  
+# Cache Settings  
+cache:
+  edgar_dir: "./data/raw/edgar"
+  xbrl_dir: "./data/raw/xbrl"
+  prices_dir: "./data/raw/prices"
+  macro_dir: "./data/raw/macro"
+  expiry_hours: 24
+
+# Tickers to track
+tickers:
+  - AAPL
+  - MSFT
+  - JNJ
+  - KO
+  - F
+  
+# Years to analyze
+years:
+  - 2019
+  - 2020
+  - 2021
+  - 2022
+  - 2023

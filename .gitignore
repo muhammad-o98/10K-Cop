@@ -1,0 +1,20 @@
+cat > .gitignore << EOF
+# Ignore everything
+*
+
+# But don't ignore these file types
+!*.py
+!*.ipynb
+!*.md
+!*.txt
+!*.csv
+!*.json
+!*.yml
+!*.yaml
+
+# Also don't ignore folders, so we can see .py/.ipynb inside them
+!*/
+
+# Optional: don't ignore the .gitignore itself
+!.gitignore
+EOF
